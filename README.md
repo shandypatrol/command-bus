@@ -3,7 +3,6 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
-[![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 Command bus
@@ -56,7 +55,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-downloads]: https://img.shields.io/packagist/dt/league/:package_name.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/shandy-patrol/command-bus
-[link-travis]: https://travis-ci.org/shandy-patrol/command-bus
+[link-travis]: https://travis-ci.org/shandypatrol/command-bus
 [link-downloads]: https://packagist.org/packages/shandy-patrol/command-bus
 [link-author]: https://github.com/ben-gibson
 [link-contributors]: ../../contributors
