@@ -31,7 +31,7 @@ class BasicCommandBus implements CommandBus
     /**
      * {@inheritdoc}
      */
-    public function executeCommand(Command $command)
+    public function execute(Command $command)
     {
         $handler = $this->handlerResolver->resolve($command);
 

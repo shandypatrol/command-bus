@@ -19,5 +19,5 @@ interface CommandBus
      *
      * @return void
      */
-    public function executeCommand(Command $command);
+    public function execute(Command $command);
 }
