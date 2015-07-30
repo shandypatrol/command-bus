@@ -30,18 +30,23 @@ class MappedResolverTest extends \PHPUnit_Framework_TestCase
     /**
      * Test that it can resolve a handler from a command.
      *
-     * TODO: FIXME!!
-     *
      * @return void
      */
     public function testResolvesHandler()
     {
-        $resolver = $this->getMappedResolver(['\ShandyPatrol\CommandBus\Command\ExampleCommand' => 'command.identifier.example']);
+        $resolver = $this->getMappedResolver([
+            '\ShandyPatrol\CommandBus\Test\Models\Command\Handler\ExampleCommandHandler'  => 'command.identifier.example',
+            '\ShandyPatrol\CommandBus\Test\Models\Command\Handler\Example2CommandHandler' => 'command.identifier.example,two',
+            '\ShandyPatrol\CommandBus\Test\Models\Command\Handler\Example3CommandHandler' => 'command.identifier.example,three',
+            '\ShandyPatrol\CommandBus\Test\Models\Command\Handler\Example4CommandHandler' => 'command.identifier.example.four',
+        ]);
 
         $command = $this->_getMockCommand();
         $command->method('getIdentifier')->willReturn('command.identifier.example');
 
-        $this->assertInstanceOf('\ShandyPatrol\CommandBus\Command\ExampleCommand',  $resolver->resolve($command));
+        $handler = $resolver->resolve($command);
+
+        $this->assertInstanceOf('\ShandyPatrol\CommandBus\Test\Models\Command\Handler\ExampleCommandHandler', $handler);
     }
 
 

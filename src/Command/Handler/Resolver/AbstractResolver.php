@@ -30,7 +30,7 @@ abstract class AbstractResolver implements HandlerResolver
             throw new NotFoundHandlerException($class);
         }
 
-        $object = $class();
+        $object = new $class();
 
         if (!($object instanceof CommandHandler)) {
             throw new InvalidHandlerException($class);

@@ -36,13 +36,14 @@ class BasicCommandBusTest extends PHPUnit_Framework_TestCase
     public function testExecutesCommand()
     {
         $handler = $this->_getMockHandler();
-        $handler->expects($this->once())->method('execute');
 
         $resolver = $this->_getMockHandlerResolver();
         $resolver->method('resolve')->willReturn($handler);
 
         $commandBus = $this->getBasicCommandBus($resolver);
-        $commandBus->executeCommand($this->_getMockCommand());
+
+        $handler->expects($this->once())->method('execute');
+        $commandBus->execute($this->_getMockCommand());
     }
 
 
