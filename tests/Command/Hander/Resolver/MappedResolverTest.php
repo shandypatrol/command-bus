@@ -55,9 +55,9 @@ class MappedResolverTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testHandlerNotMappedException()
+    public function testHandlerNotFoundException()
     {
-        $this->setExpectedException('Exception'); //TODO: ADD SPECIFIC EXCEPTION
+        $this->setExpectedException('\ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\HandlerNotFoundException');
 
         $resolver = $this->getMappedResolver(['\ShandyPatrol\CommandBus\Command\ExampleCommand' => 'command.identifier.example']);
 
@@ -70,9 +70,9 @@ class MappedResolverTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testHandlerNotFoundException()
+    public function testHandlerClassNotFoundException()
     {
-        $this->setExpectedException('\ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\NotFoundHandlerException');
+        $this->setExpectedException('\ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\HandlerClassNotFoundException');
 
         $resolver = $this->getMappedResolver(['\ShandyPatrol\CommandBus\Command\ExampleCommand' => 'command.identifier.example']);
 
