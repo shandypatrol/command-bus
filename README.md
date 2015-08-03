@@ -50,7 +50,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/league/:package_name.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/thephpleague/:package_name/master.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/shandypatrol/command-bus/master.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/thephpleague/:package_name.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/league/:package_name.svg?style=flat-square
 
