@@ -2,19 +2,18 @@
 
 namespace ShandyPatrol\CommandBus\Command\Handler\Resolver;
 
-use Exception;
 use ShandyPatrol\CommandBus\Command\Command;
-use ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\NotFoundHandlerException;
+use ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\HandlerNotFoundException;
 
 /**
- * Resolve a handler for a command using the command class name.
+ * Resolve a handler for a command by taking the command class name through a pre-defined list of namespaces.
  *
  * @package ShandyPatrol\CommandBus\Command\Handler\Resolver
  */
 class InflectorResolver extends AbstractResolver
 {
 
-    protected $handlerNamespaces = [];
+    protected $namespaces = [];
 
 
     /**
@@ -24,75 +23,60 @@ class InflectorResolver extends AbstractResolver
      */
     public function __construct(array $handlerNamespaces)
     {
-        $this->handlerNamespaces = $handlerNamespaces;
+        $this->namespaces = $handlerNamespaces;
     }
 
 
     /**
      * {@inheritdoc}
      */
-    public function resolve(Command $command)
-    {
-        return $this->getHandler($command);
-    }
-
-
-    /**
-     * Get the handler class from the command class.
-     *
-     * @param Command  $command  The command to resolve a handler for.
-     *
-     * @throws NotFoundHandlerException Could not find handler.
-     *
-     * @return object
-     */
-    protected function getHandler(Command $command)
+    protected function resolveClass(Command $command)
     {
         $className = get_class($command).'Handler';
 
-        foreach($this->handlerNamespaces as $namespace) {
+        foreach($this->namespaces as $namespace) {
 
             $resolvedClassName = "{$namespace}\\{$className}";
 
-            try {
-                return parent::getHandler($resolvedClassName);
-            } catch(NotFoundHandlerException $e) {
+            if (!class_exists($resolvedClassName)) {
                 continue;
             }
+
+            return $resolvedClassName;
         }
 
-        throw new NotFoundHandlerException($className);
+        throw new HandlerNotFoundException($command);
     }
 
 
     /**
-     * Get handler namespaces.
+     * Get namespaces.
      *
      * @return array
      */
-    public function getHandlerNamespaces()
+    public function getNamespaces()
     {
-        return $this->handlerNamespaces;
+        return $this->namespaces;
     }
 
 
     /**
-     * Set handler namespaces.
+     * Set namespaces.
      *
-     * @param array  $handlerNamespaces  The handler namespaces to set.
+     * @param array  $namespaces  The namespaces to set.
      *
      * @return self
      */
-    public function setHandlerNamespaces(array $handlerNamespaces)
+    public function setNamespaces(array $namespaces)
     {
-        $this->handlerNamespaces = $handlerNamespaces;
+        $this->namespaces = $namespaces;
 
         return $this;
     }
 
 
     /**
-     * Add a handler name space.
+     * Add a name space.
      *
      * @param string  $namespace  Namespace to add.
      *
@@ -100,7 +84,7 @@ class InflectorResolver extends AbstractResolver
      */
     protected function addHandlerNameSpace($namespace)
     {
-        $this->handlerNamespaces[] = $namespace;
+        $this->namespaces[] = $namespace;
 
         return $this;
     }

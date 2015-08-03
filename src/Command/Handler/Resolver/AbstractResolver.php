@@ -1,9 +1,11 @@
 <?php
 
 namespace ShandyPatrol\CommandBus\Command\Handler\Resolver;
+
+use ShandyPatrol\CommandBus\Command\Command;
 use ShandyPatrol\CommandBus\Command\Handler\CommandHandler;
 use ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\InvalidHandlerException;
-use ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\NotFoundHandlerException;
+use ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\HandlerClassNotFoundException;
 
 /**
  * Abstract handler resolver.
@@ -13,13 +15,31 @@ use ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\NotFoundHandlerEx
 abstract class AbstractResolver implements HandlerResolver
 {
 
+
+    /**
+     * {@inheritdoc}
+     */
+    public function resolve(Command $command)
+    {
+        return $this->getHandler($this->resolveClass($command));
+    }
+
+
+    /**
+     * Resolve the class name
+     *
+     * @return string
+     */
+    protected abstract function resolveClass(Command $command);
+
+
     /**
      * Get the handler from the fully resolved class name.
      *
      * @param string  $class  The class name to get a handler from.
      *
-     * @throws NotFoundHandlerException Handler class does not exist.
-     * @throws InvalidHandlerException  Handler is invalid.
+     * @throws HandlerClassNotFoundException Handler class does not exist.
+     * @throws InvalidHandlerException       Handler is invalid.
      *
      * @return object
      */
@@ -27,7 +47,7 @@ abstract class AbstractResolver implements HandlerResolver
     {
 
         if (!class_exists($class)) {
-            throw new NotFoundHandlerException($class);
+            throw new HandlerClassNotFoundException($class);
         }
 
         $object = new $class();

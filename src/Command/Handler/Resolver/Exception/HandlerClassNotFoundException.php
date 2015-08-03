@@ -5,11 +5,11 @@ namespace ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception;
 use Exception;
 
 /**
- * Handler could not be found.
+ * Handler class could not be found.
  *
  * @package ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception
  */
-class NotFoundHandlerException extends Exception
+class HandlerClassNotFoundException extends Exception
 {
 
     /**
@@ -17,6 +17,6 @@ class NotFoundHandlerException extends Exception
      */
     public function __construct($class, $code = 0, $clause = null)
     {
-        parent::__construct("Handler {$class} could not be found", $code, $clause);
+        parent::__construct("Handler with class {$class} was not found", $code, $clause);
     }
 }

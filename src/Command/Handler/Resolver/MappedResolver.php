@@ -4,6 +4,7 @@ namespace ShandyPatrol\CommandBus\Command\Handler\Resolver;
 
 use Exception;
 use ShandyPatrol\CommandBus\Command\Command;
+use ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\HandlerNotFoundException;
 
 /**
  * Resolve handlers by the command id from a defined mapping.
@@ -13,31 +14,22 @@ use ShandyPatrol\CommandBus\Command\Command;
 class MappedResolver extends AbstractResolver
 {
 
-    protected $handlerMapping = [];
+    protected $mapping = [];
 
 
     /**
      * Constructor.
      *
-     * @param array  $handlerMapping  The handler mapping.
+     * @param array  $mapping  The handler mapping.
      */
-    public function __construct(array $handlerMapping)
+    public function __construct(array $mapping)
     {
-        $this->handlerMapping = $handlerMapping;
+        $this->mapping = $mapping;
     }
 
 
     /**
-     * {@inheritdoc}
-     */
-    public function resolve(Command $command)
-    {
-        return $this->getHandler($this->resolveClassNameFromMapping($command));
-    }
-
-
-    /**
-     * Get the handler class.
+     * Get the handler class using the mapping.
      *
      * @param Command  $command  The command to get the handler class from.
      *
@@ -45,13 +37,12 @@ class MappedResolver extends AbstractResolver
      *
      * @return string
      */
-    protected function resolveClassNameFromMapping(Command $command)
+    protected function resolveClass(Command $command)
     {
-        $handlers = array_flip($this->handlerMapping);
+        $handlers = array_flip($this->mapping);
 
         if (!isset($handlers[$command->getIdentifier()])) {
-            //TODO: ADD SPECIFIC EXCEPTION
-            throw new Exception("Handler not found for command with identifier {$command->getIdentifier()}");
+            throw new HandlerNotFoundException($command);
         }
 
         return $handlers[$command->getIdentifier()];
