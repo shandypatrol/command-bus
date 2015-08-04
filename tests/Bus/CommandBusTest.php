@@ -48,10 +48,15 @@ class BasicCommandBusTest extends PHPUnit_Framework_TestCase
         $resolver = $this->_getMockHandlerResolver();
         $resolver->method('resolve')->willReturn($handler);
 
-        $middleware = $this->getMock(Middleware::class);
-        $middleware->expects($this->once())->method('affect');
+        $collection = [];
 
-        $middlewareCollection = $this->_getMockMiddlewareCollection([$middleware]);
+        for ($i = 0; $i > 10; $i++) {
+            $middleware = $this->getMock(Middleware::class);
+            $middleware->expects($this->once())->method('affect');
+            $collection[] = $middleware;
+        }
+
+        $middlewareCollection = $this->_getMockMiddlewareCollection($collection);
         $middlewareCollection->method('getPrioritisedOrder')->willReturn($middlewareCollection);
         $middlewareCollection->expects($this->once())->method('getPrioritisedOrder');
 
