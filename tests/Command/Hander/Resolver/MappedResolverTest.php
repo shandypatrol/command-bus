@@ -2,6 +2,8 @@
 
 namespace ShandyPatrol\CommandBus\Test\Command\Hander\Resolver;
 
+use ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\HandlerClassNotFoundException;
+use ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\HandlerNotFoundException;
 use ShandyPatrol\CommandBus\Command\Handler\Resolver\MappedResolver;
 use ShandyPatrol\CommandBus\Test\Command\MockCommandTrait;
 
@@ -23,7 +25,7 @@ class MappedResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitialise()
     {
-        $this->assertInstanceOf('\ShandyPatrol\CommandBus\Command\Handler\Resolver\MappedResolver', $this->getMappedResolver());
+        $this->assertInstanceOf(MappedResolver::class, $this->getMappedResolver());
     }
 
 
@@ -57,7 +59,7 @@ class MappedResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandlerNotFoundException()
     {
-        $this->setExpectedException('\ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\HandlerNotFoundException');
+        $this->setExpectedException(HandlerNotFoundException::class);
 
         $resolver = $this->getMappedResolver(['\ShandyPatrol\CommandBus\Command\ExampleCommand' => 'command.identifier.example']);
 
@@ -72,7 +74,7 @@ class MappedResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandlerClassNotFoundException()
     {
-        $this->setExpectedException('\ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\HandlerClassNotFoundException');
+        $this->setExpectedException(HandlerClassNotFoundException::class);
 
         $resolver = $this->getMappedResolver(['\ShandyPatrol\CommandBus\Command\ExampleCommand' => 'command.identifier.example']);
 

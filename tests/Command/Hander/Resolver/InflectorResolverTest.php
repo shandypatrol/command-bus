@@ -2,6 +2,8 @@
 
 namespace ShandyPatrol\CommandBus\Test\Command\Hander\Resolver;
 
+use ShandyPatrol\CommandBus\Command\Command;
+use ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\HandlerNotFoundException;
 use ShandyPatrol\CommandBus\Test\Command\MockCommandTrait;
 use ShandyPatrol\CommandBus\Command\Handler\Resolver\InflectorResolver;
 
@@ -23,7 +25,7 @@ class InflectorResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitialise()
     {
-        $this->assertInstanceOf('\ShandyPatrol\CommandBus\Command\Handler\Resolver\InflectorResolver', $this->getInflectorResolver());
+        $this->assertInstanceOf(InflectorResolver::class, $this->getInflectorResolver());
     }
 
 
@@ -34,7 +36,7 @@ class InflectorResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandlerNotFoundException()
     {
-        $this->setExpectedException('\ShandyPatrol\CommandBus\Command\Handler\Resolver\Exception\HandlerNotFoundException');
+        $this->setExpectedException(HandlerNotFoundException::class);
 
         $resolver = $this->getInflectorResolver([
             '\ShandyPatrol\CommandBus\Test\Models\Command\Handler\Cache',
@@ -60,7 +62,7 @@ class InflectorResolverTest extends \PHPUnit_Framework_TestCase
             '\ShandyPatrol\CommandBus\Test\Models\Command\Handler',
         ]);
 
-        $command = $this->getMockBuilder('\ShandyPatrol\CommandBus\Command\Command')
+        $command = $this->getMockBuilder(Command::class)
             ->setMockClassName('ExampleCommand')
             ->getMock();
 

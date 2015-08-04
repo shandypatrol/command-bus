@@ -19,6 +19,6 @@ trait MockCommandTrait
      */
     protected function _getMockCommand()
     {
-        return $this->getMock('\ShandyPatrol\CommandBus\Command\Command');
+        return $this->getMock(Command::class);
     }
 }
