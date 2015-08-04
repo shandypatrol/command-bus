@@ -53,6 +53,7 @@ class BasicCommandBusTest extends PHPUnit_Framework_TestCase
         for ($i = 0; $i > 10; $i++) {
             $middleware = $this->getMock(Middleware::class);
             $middleware->expects($this->once())->method('affect');
+            $middleware->expects($this->once())->method('next');
             $collection[] = $middleware;
         }
 
