@@ -1,6 +1,5 @@
 <?php
 
-
 namespace ShandyPatrol\CommandBus\Middleware\Exception;
 
 use Exception;

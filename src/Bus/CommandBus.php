@@ -40,7 +40,7 @@ class CommandBus
     public function execute(Command $command)
     {
         try {
-           $this->fireMiddlewareChain($command);
+           $this->traverseMiddleware($command);
         } catch(StopPropagationException $e) {
             return;
         }
@@ -50,19 +50,19 @@ class CommandBus
 
 
     /**
-     * Start running the command through the middleware.
+     * Traverse the command through the Middleware chain.
      *
      * @param Command  $command  The command to send through the middleware chain
      *
      * @return void
      */
-    protected function fireMiddlewareChain(Command $command)
+    protected function traverseMiddleware(Command $command)
     {
 
-       $next = function() {};
+        $next = function() {};
 
-       foreach($this->middlewareCollection->getPrioritisedOrder() as $middleware) {
-           $next = function($command) use ($middleware, $next) {
+        foreach($this->middlewareCollection->getPrioritisedOrder() as $middleware) {
+            $next = function($command) use ($middleware, $next) {
                 $middleware->affect($command, $next);
             };
         }

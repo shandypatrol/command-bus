@@ -20,14 +20,35 @@ class MiddlewareCollection implements ArrayAccess, Iterator, Countable
 
 
     /**
+     * Constructor.
+     *
+     * @param array  $middleware  The middleware.
+     */
+    public function __construct(array $middleware)
+    {
+        $this->middleware = $middleware;
+    }
+
+
+    /**
      * Get the middleware in prioritised order.
      *
-     * @return Middleware[]
+     * @return self
      */
     public function getPrioritisedOrder()
     {
-        // prioritisation logic
-        return $this->middleware;
+        $order = $this->toArray();
+
+        usort($order, function(Middleware $a, Middleware $b){
+
+            if ($a->getPriority() === $b->getPriority()) {
+                return 0;
+            }
+
+            return $a->getPriority() < $b->getPriority() ? -1 : 1;
+        });
+
+        return new self($order);
     }
 
 
@@ -45,8 +66,8 @@ class MiddlewareCollection implements ArrayAccess, Iterator, Countable
     /**
      * {@inheritdoc}
      */
-    public function offsetSet($offset, $value) {
-
+    public function offsetSet($offset, $value)
+    {
         if (is_null($offset)) {
             $this->middleware[] = $value;
         } else {
@@ -58,7 +79,8 @@ class MiddlewareCollection implements ArrayAccess, Iterator, Countable
     /**
      * {@inheritdoc}
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->middleware[$offset]);
     }
 
@@ -66,7 +88,8 @@ class MiddlewareCollection implements ArrayAccess, Iterator, Countable
     /**
      * {@inheritdoc}
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->middleware[$offset]);
     }
 
@@ -74,7 +97,8 @@ class MiddlewareCollection implements ArrayAccess, Iterator, Countable
     /**
      * {@inheritdoc}
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return isset($this->middleware[$offset]) ? $this->middleware[$offset] : null;
     }
 
@@ -82,7 +106,8 @@ class MiddlewareCollection implements ArrayAccess, Iterator, Countable
     /**
      * {@inheritdoc}
      */
-    function rewind() {
+    public function rewind()
+    {
         $this->position = 0;
     }
 
@@ -90,7 +115,8 @@ class MiddlewareCollection implements ArrayAccess, Iterator, Countable
     /**
      * {@inheritdoc}
      */
-    function current() {
+    public function current()
+    {
         return $this->middleware[$this->position];
     }
 
@@ -98,7 +124,8 @@ class MiddlewareCollection implements ArrayAccess, Iterator, Countable
     /**
      * {@inheritdoc}
      */
-    function key() {
+    public function key()
+    {
         return $this->position;
     }
 
@@ -106,7 +133,8 @@ class MiddlewareCollection implements ArrayAccess, Iterator, Countable
     /**
      * {@inheritdoc}
      */
-    function next() {
+    public function next()
+    {
         ++$this->position;
     }
 
@@ -114,7 +142,8 @@ class MiddlewareCollection implements ArrayAccess, Iterator, Countable
     /**
      * {@inheritdoc}
      */
-    function valid() {
+    public function valid()
+    {
         return isset($this->middleware[$this->position]);
     }
 

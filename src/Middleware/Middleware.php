@@ -23,7 +23,7 @@ interface Middleware
      * Affect a command prior to execution.
      *
      * @param Command   $command  The command to affect.
-     * @param callable  $next     The command to affect.
+     * @param callable  $next     The next middleware to run in the chain.
      *
      * @return void
      */
