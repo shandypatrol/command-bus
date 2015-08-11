@@ -41,7 +41,7 @@ abstract class AbstractResolver implements HandlerResolver
      * @throws HandlerClassNotFoundException Handler class does not exist.
      * @throws InvalidHandlerException       Handler is invalid.
      *
-     * @return object
+     * @return CommandHandler
      */
     protected function getHandler($class)
     {
